@@ -1,6 +1,8 @@
 import csv
 import os
 
+from data.data_types import Purchase
+
 
 def print_header():
     print('------------------------------------------------')
@@ -14,8 +16,20 @@ def get_data_file():
     return os.path.join(base_folder, 'data',
                         'SacramentoRealEstateTransactions2008.csv')
 
-
 def load_file(file_name):
+    with open(file_name, 'r', encoding='utf-8') as fin:
+        reader = csv.DictReader(fin)
+        purchases = []
+        for row in reader:
+            p = Purchase.create_from_dict(row)
+            purchases.append(p)
+
+        # print(purchases[0].__dict__)
+
+        return purchases
+
+
+def load_file_dict_reader(file_name):
     with open(file_name, 'r', encoding='utf-8') as fin:
         # header = fin.readline() -- dont strip header for DictReader
         reader = csv.DictReader(fin)
