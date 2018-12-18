@@ -1,5 +1,6 @@
 import csv
 import os
+import statistics
 
 from data.data_types import Purchase
 
@@ -59,8 +60,47 @@ def load_file_basic(file_name):
         print(lines[:5])
 
 
+def get_price(p):
+    return p.price
+
+
 def query_data(data):
-    pass
+    # Sort the list in place
+
+    # use a method to get price for purchase object
+    # data.sort(key=get_price)
+
+    # use a lambda to get price of a purchase object
+    data.sort(key=lambda p: p.price)
+
+    # most expensive house?
+    high_purchase = data[-1]
+    print("The most expensive house is ${:,} with {} beds and {} baths.".format(
+        high_purchase.price, high_purchase.beds, high_purchase.baths
+    ))
+
+    # least expenseive house?
+    low_purchase = data[0]
+    print("The least expensive house is ${:,} with {} beds and {} baths.".format(
+        low_purchase.price, low_purchase.beds, low_purchase.baths
+    ))
+
+    # average price of house ?
+    prices = []
+    for pur in data:
+        prices.append(pur.price)
+
+    average_price = statistics.mean(prices)
+    print("The average home price is ${:,}".format(int(average_price)))
+
+    # average price of 2 bedroom houses?
+    prices = []
+    for pur in data:
+        if pur.beds == 2:
+            prices.append(pur.price)
+
+    average_price = statistics.mean(prices)
+    print("The average 2 bedroom home price is ${:,}".format(int(average_price)))
 
 
 def main():
