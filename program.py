@@ -90,21 +90,35 @@ def query_data(data):
     )
 
     # average price of house ?
-    prices = []
-    for pur in data:
-        prices.append(pur.price)
+    # prices = []
+    # for pur in data:
+    #     prices.append(pur.price)
+
+    prices = [
+        p.price  # projection
+        for p in data  # the set to process
+    ]
 
     average_price = statistics.mean(prices)
     print("The average home price is ${:,}".format(int(average_price)))
 
     # average price of 2 bedroom houses?
-    prices = []
-    for pur in data:
-        if pur.beds == 2:
-            prices.append(pur.price)
+    # prices = []
+    # for pur in data:
+    #     if pur.beds == 2:
+    #         prices.append(pur.price)
 
-    average_price = statistics.mean(prices)
-    print("The average 2 bedroom home price is ${:,}".format(int(average_price)))
+    two_bed_homes = [
+        p
+        for p in data
+        if p.beds == 2
+    ]
+
+    average_price = statistics.mean(p.price for p in two_bed_homes)
+    average_baths = statistics.mean(p.baths for p in two_bed_homes)
+    average_sqft = statistics.mean(p.sq__ft for p in two_bed_homes)
+    print("The average 2 bedroom home price is ${:,}, baths={}, sq ft={}".
+          format(int(average_price), round(average_baths, 1), round(average_sqft, 1)))
 
 
 def main():
